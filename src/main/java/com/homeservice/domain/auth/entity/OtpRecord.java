@@ -8,7 +8,17 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "otp_records", indexes = { @Index(name = "idx_otp_mobile_purpose", columnList = "mobile, purpose") })
+@Table(
+	    name = "otp_records",
+	    indexes = {
+	        @Index(
+	            name = "idx_otp_mobile_purpose_used",
+	            columnList = "mobile, purpose, isUsed"),
+	        @Index(
+	            name = "idx_otp_expires",
+	            columnList = "expiresAt")
+	    }
+	)
 @Getter
 @Setter
 @NoArgsConstructor

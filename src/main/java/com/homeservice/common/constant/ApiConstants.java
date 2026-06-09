@@ -41,4 +41,15 @@ public final class ApiConstants {
 	public static final String CUSTOMER_REVERSE_GEOCODE = CUSTOMER + "/location/reverse-geocode";
 	public static final String CUSTOMER_AUTOCOMPLETE = CUSTOMER + "/location/autocomplete";
 	public static final String CUSTOMER_PLACE_DETAILS = CUSTOMER + "/location/place-details";
+
+	// Add these to ApiConstants
+
+	public static final String SLOTS = BASE + "/slots";
+	public static final String SLOT_AVAILABILITY = SLOTS + "/availability";
+	public static final String SLOT_AVAILABILITY_WEEK = SLOTS + "/availability/week";
+
+	public static final String ADMIN_SLOTS = ADMIN + "/slots";
+	public static final String ADMIN_SLOT_BLOCK = ADMIN_SLOTS + "/block";
+	public static final String ADMIN_SLOT_UNBLOCK = ADMIN_SLOTS + "/unblock";
+	public static final String ADMIN_SLOT_HEATMAP = ADMIN_SLOTS + "/heatmap";
 }
