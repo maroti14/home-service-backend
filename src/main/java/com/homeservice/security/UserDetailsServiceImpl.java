@@ -1,38 +1,32 @@
 package com.homeservice.security;
 
-
-
-import com.homeservice.domain.auth.entity.User;
-import com.homeservice.domain.customer.repository.CustomerRepository;
-import com.homeservice.domain.worker.repository.WorkerRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.homeservice.domain.auth.entity.User;
+import com.homeservice.domain.auth.repository.UserRepository;
 
 @Service
 @RequiredArgsConstructor
-public class UserDetailsServiceImpl
-        implements UserDetailsService {
+@Slf4j
+public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final CustomerRepository customerRepo;
-    private final WorkerRepository workerRepo;
+	private final UserRepository userRepository;
 
-    @Override
-    public UserDetails loadUserByUsername(String email)
-            throws UsernameNotFoundException {
+	@Override
+	@Transactional(readOnly = true)
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        // try customer first, then worker
-        User user = customerRepo.findByEmail(email)
-                .map(c -> (User) c)
-                .orElseGet(() ->
-                    workerRepo.findByEmail(email)
-                        .map(w -> (User) w)
-                        .orElseThrow(() ->
-                            new UsernameNotFoundException(
-                                "User not found: " + email)));
+		User user = userRepository.findByEmail(email).orElseThrow(() -> {
+			log.warn("User not found | email={}", email);
+			return new UsernameNotFoundException("User not found: " + email);
+		});
 
-        return new UserDetailsImpl(user);
-    }
+		return new UserDetailsImpl(user);
+	}
 }

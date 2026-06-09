@@ -1,32 +1,29 @@
 package com.homeservice.domain.auth.entity;
 
+import com.homeservice.common.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import java.time.LocalDateTime;
-
 @Entity
-@Table(name = "users")
+@Table(name = "users", indexes = { @Index(name = "idx_user_email", columnList = "email"),
+		@Index(name = "idx_user_mobile", columnList = "mobile") })
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
 @Inheritance(strategy = InheritanceType.JOINED)
-public class User {
+public class User extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false)
+	@Column(nullable = false, length = 100)
 	private String name;
 
-	@Column(unique = true)
+	@Column(unique = true, length = 150)
 	private String email;
 
 	@Column(nullable = false, unique = true, length = 15)
@@ -43,14 +40,7 @@ public class User {
 	@Column(nullable = false)
 	private Boolean isActive = true;
 
-	// mobile verified after OTP check on register
 	@Builder.Default
 	@Column(nullable = false)
 	private Boolean isMobileVerified = false;
-
-	@CreationTimestamp
-	private LocalDateTime createdAt;
-
-	@UpdateTimestamp
-	private LocalDateTime updatedAt;
 }

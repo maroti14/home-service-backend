@@ -1,7 +1,11 @@
 package com.homeservice.domain.auth.entity;
 
+
+
+import com.homeservice.common.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "roles")
@@ -9,12 +13,13 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Role {
+@SuperBuilder
+public class Role extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String name; // ROLE_CUSTOMER / ROLE_WORKER / ROLE_ADMIN
+	@Column(nullable = false, unique = true, length = 30)
+	private String name;
 }
