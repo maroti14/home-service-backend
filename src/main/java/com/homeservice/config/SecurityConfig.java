@@ -56,7 +56,7 @@ public class SecurityConfig {
 								ApiConstants.REFRESH_TOKEN, ApiConstants.LOGOUT)
 						.permitAll()
 						.requestMatchers(HttpMethod.GET, "/api/v1/cities", "/api/v1/cities/**", "/api/v1/services",
-								"/api/v1/services/**", "/api/v1/pricing/**")
+								"/api/v1/services/**", "/api/v1/pricing/**","/api/v1/slots/**")
 						.permitAll().requestMatchers(HttpMethod.OPTIONS, "/**").permitAll().anyRequest()
 						.authenticated())
 				.build();
