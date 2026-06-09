@@ -1,48 +1,43 @@
 package com.homeservice.domain.auth.entity;
 
-
-
+import com.homeservice.common.base.BaseEntity;
 import com.homeservice.common.enums.OtpPurpose;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "otp_records")
+@Table(name = "otp_records", indexes = { @Index(name = "idx_otp_mobile_purpose", columnList = "mobile, purpose") })
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OtpRecord {
+public class OtpRecord extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    // mobile number the OTP was sent to
-    @Column(nullable = false, length = 15)
-    private String mobile;
+	@Column(nullable = false, length = 15)
+	private String mobile;
 
-    @Column(nullable = false, length = 6)
-    private String otpCode;
+	@Column(nullable = false, length = 6)
+	private String otpCode;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private OtpPurpose purpose;
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false, length = 30)
+	private OtpPurpose purpose;
 
-    @Column(nullable = false)
-    private LocalDateTime expiresAt;
+	@Column(nullable = false)
+	private LocalDateTime expiresAt;
 
-    @Builder.Default
-    private Boolean isUsed = false;
+	@Builder.Default
+	@Column(nullable = false)
+	private Boolean isUsed = false;
 
-    // how many times user attempted wrong OTP
-    @Builder.Default
-    private Integer attemptCount = 0;
-
-    @CreationTimestamp
-    private LocalDateTime createdAt;
+	@Builder.Default
+	@Column(nullable = false)
+	private Integer attemptCount = 0;
 }

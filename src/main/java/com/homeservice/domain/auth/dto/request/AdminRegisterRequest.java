@@ -1,33 +1,28 @@
 package com.homeservice.domain.auth.dto.request;
 
-
-
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.*;
+import lombok.*;
 
 @Getter
 @Setter
 public class AdminRegisterRequest {
 
-    @NotBlank(message = "Name is required")
-    @Size(min = 2, max = 60)
-    private String name;
+	@NotBlank(message = "Name is required")
+	@Size(min = 2, max = 100)
+	private String name;
 
-    @NotBlank(message = "Email is required")
-    @Email(message = "Invalid email format")
-    private String email;
+	@NotBlank(message = "Email is required")
+	@Email(message = "Invalid email format")
+	private String email;
 
-    @NotBlank(message = "Mobile is required")
-    private String mobile;
+	@NotBlank(message = "Mobile is required")
+	@Pattern(regexp = "^[6-9]\\d{9}$", message = "Enter valid 10-digit Indian mobile")
+	private String mobile;
 
-    @NotBlank(message = "Password is required")
-    @Size(min = 8, message = "Min 8 characters")
-    private String password;
+	@NotBlank(message = "Password is required")
+	@Size(min = 8)
+	private String password;
 
-    // secret key to prevent unauthorised admin creation
-    @NotBlank(message = "Admin secret is required")
-    private String adminSecret;
+	@NotBlank(message = "Admin secret required")
+	private String adminSecret;
 }

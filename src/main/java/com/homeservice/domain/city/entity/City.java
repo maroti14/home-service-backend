@@ -1,43 +1,32 @@
 package com.homeservice.domain.city.entity;
 
+import com.homeservice.common.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "cities")
+@Table(name = "cities", indexes = { @Index(name = "idx_city_code", columnList = "cityCode") })
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class City {
+public class City extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false, unique = true, length = 100)
 	private String name;
 
-	@Column(nullable = false)
+	@Column(nullable = false, length = 100)
 	private String state;
 
-	// city code used in Redis keys
-	// e.g. PUNE, MUMBAI, DELHI
 	@Column(nullable = false, unique = true, length = 20)
 	private String cityCode;
 
 	@Builder.Default
 	@Column(nullable = false)
 	private Boolean isActive = true;
-
-	@CreationTimestamp
-	private LocalDateTime createdAt;
-
-	@UpdateTimestamp
-	private LocalDateTime updatedAt;
 }
