@@ -68,4 +68,32 @@ public class AppProperties {
 		private int maxRetries = 3;
 		private int alertTimeoutSeconds = 30;
 	}
+
+	// Add these nested classes to AppProperties
+
+	@NotNull
+	private Razorpay razorpay = new Razorpay();
+
+	@NotNull
+	private Booking booking = new Booking();
+
+	@Getter
+	@Setter
+	public static class Razorpay {
+		private String keyId;
+		private String keySecret;
+		private boolean enabled = false;
+	}
+
+	@Getter
+	@Setter
+	public static class Booking {
+		// free cancel if > this many minutes before slot
+		private int cancelFreeMinutes = 30;
+		// fee charged for late cancel (in rupees)
+		private int cancelFee = 50;
+		// auto complete after N minutes
+		// if customer does not confirm
+		private int autoCompleteMinutes = 5;
+	}
 }
